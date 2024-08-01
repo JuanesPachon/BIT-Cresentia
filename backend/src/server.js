@@ -14,9 +14,7 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-import express from 'express';
 import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
 import induccionRoutes from './routes/inducciones.js';
 
 const PORT = process.env.PORT || 3000;
