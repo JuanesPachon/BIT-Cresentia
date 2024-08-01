@@ -1,8 +1,21 @@
 import modelAdult from "../models/modelAdult.js";
+import errorHandler from "../utils/errorHandler.js";
 
 const controllerAdult = {
     createAdultUser: async (req, res) => {
         try {
+
+            const existingUser = await modelAdult.findOne({
+                email: req.body.email,
+            });
+            if (existingUser) {
+                errorHandler.handleDuplicateError(
+                    res,
+                    "El email ya se encuentra registrado"
+                );
+                return;
+            }
+
             const {
                 rol,
                 nombre,
@@ -34,11 +47,8 @@ const controllerAdult = {
             }
         } catch (error) {
             console.log("Error");
-            res.json({
-                result: "Unsuccessful",
-                message: "Error creating user",
-                data: null
-            });
+            familyHandler.handleServerError(res);
+
         }
     },
 
@@ -51,6 +61,9 @@ const controllerAdult = {
                     message: "User found",
                     data: adultUserFound
                 });
+            } else {
+                errorHandler.handleNotFoundError(res, "Usuario");
+                return;
             }
         } catch (error) {
             res.json({
