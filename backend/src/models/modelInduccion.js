@@ -1,5 +1,5 @@
 // Hi :)
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const induccionSchema = new mongoose.Schema({
     terapeutaId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Therapist' },
@@ -8,4 +8,5 @@ const induccionSchema = new mongoose.Schema({
     estado: { type: String, required: true, enum: ['pendiente', 'confirmada', 'cancelada'] }
 });
 
-module.exports = mongoose.model('Induccion', induccionSchema);
+const Induccion = mongoose.model('Induccion', induccionSchema);
+export default Induccion;

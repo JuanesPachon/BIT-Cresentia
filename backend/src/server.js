@@ -14,14 +14,18 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-const express = require('express');
-const router = express.Router();
-const induccionController = require('../controllers/induccionController');
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import induccionRoutes from './routes/inducciones.js';
 
-router.post('/', induccionController.createInduccion);
-router.get('/', induccionController.getInducciones);
-router.get('/:id', induccionController.getInduccionById);
-router.put('/:id', induccionController.updateInduccion);
-router.delete('/:id', induccionController.deleteInduccion);
+const PORT = process.env.PORT || 3000;
 
-module.exports = router;
+mongoose.connect('mongodb://localhost:27017/cresentia', { useNewUrlParser: true, useUnifiedTopology: true });
+
+app.use(bodyParser.json());
+app.use('/inducciones', induccionRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

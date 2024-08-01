@@ -1,12 +1,13 @@
 // Hi :)
-const express = require('express');
+import express from 'express';
+import { createInduccion, getInducciones, getInduccionById, updateInduccion, deleteInduccion } from '../controllers/induccionController.js';
+
 const router = express.Router();
-const induccionController = require('../controllers/induccionController');
 
-router.post('/', induccionController.createInduccion);
-router.get('/', induccionController.getInduccions);
-router.get('/:id', induccionController.getInduccionById);
-router.put('/:id', induccionController.updateInduccion);
-router.delete('/:id', induccionController.deleteInduccion);
+router.post('/', createInduccion);
+router.get('/', getInducciones);
+router.get('/:id', getInduccionById);
+router.put('/:id', updateInduccion);
+router.delete('/:id', deleteInduccion);
 
-module.exports = router;
+export default router;
