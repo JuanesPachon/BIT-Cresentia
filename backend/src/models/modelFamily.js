@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from "bcryptjs";
 
 const modelFamilySchema = new mongoose.Schema({
   name: {type: String, required: true},
@@ -17,6 +18,12 @@ const modelFamilySchema = new mongoose.Schema({
   institute: {type: String, required: true},
   degree: {type: String, default: null},
   phoneNumber: {type: String, required: true},
+});
+
+modelFamilySchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  return;
 });
 
 const modelFamily = mongoose.model('ModelFamily', modelFamilySchema);
