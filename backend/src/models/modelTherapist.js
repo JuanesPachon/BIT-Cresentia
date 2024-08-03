@@ -1,6 +1,7 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
 
-const modelTherapist = new Schema(
+const modelTherapistSchema = new mongoose.Schema(
     {
         name: { type: String, required:true },
         nickname: { type: String, required:true },
@@ -15,6 +16,14 @@ const modelTherapist = new Schema(
         tlf: { type: String, required:true },
         description: { type: String, required:true },
     }
-)
+);
 
-export  default model("ModelTherapist", modelTherapist)
+modelTherapistSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 10);
+    return;
+  });
+  
+  const modelTherapist = mongoose.model('ModelTherapist', modelTherapistSchema);
+
+export  default modelTherapist;
